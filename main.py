@@ -31,7 +31,7 @@ def help_command(update, context):
 
 def echo(update, context):
     """Echo the user message."""
-    results = gelbooru.search_posts(tags=[update.message.text])
+    results = await gelbooru.search_posts(tags=[update.message.text])
     update.message.reply_text(str(results[0]))
 
 def main():
