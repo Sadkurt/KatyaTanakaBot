@@ -3,6 +3,7 @@ import os
 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
+PORT = int(os.environ.get('PORT', 5000))
 TOKEN= os.environ["TOKEN"]
 
 # Enable logging
@@ -47,7 +48,10 @@ def main():
     dp.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
 
     # Start the Bot
-    updater.start_polling()
+    updater.start_webhook(listen="0.0.0.0",
+                          port=int(PORT),
+                          url_path=TOKEN)
+    updater.bot.setWebhook('https://tgbotkatya.herokuapp.com/' + TOKEN)
 
     # Run the bot until you press Ctrl-C or the process receives SIGINT,
     # SIGTERM or SIGABRT. This should be used most of the time, since
