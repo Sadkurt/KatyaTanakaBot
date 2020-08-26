@@ -1,5 +1,7 @@
 import logging
 import os
+from pygelbooru import Gelbooru
+
 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
@@ -27,8 +29,8 @@ def help_command(update, context):
 
 def echo(update, context):
     """Echo the user message."""
-    update.message.reply_text(update.message.text)
-
+    results = Gelbooru.search_posts(tags=[update.message.text])
+    update.message.reply_text(str(results[0]))
 
 def main():
     """Start the bot."""
