@@ -8,6 +8,8 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 PORT = int(os.environ.get('PORT', 5000))
 TOKEN= os.environ["TOKEN"]
 
+gelbooru = Gelbooru()
+
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
@@ -29,7 +31,7 @@ def help_command(update, context):
 
 def echo(update, context):
     """Echo the user message."""
-    results = Gelbooru.search_posts(tags=[update.message.text])
+    results = gelbooru.search_posts(tags=[update.message.text])
     update.message.reply_text(str(results[0]))
 
 def main():
