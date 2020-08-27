@@ -9,8 +9,9 @@ from pybooru import Danbooru
 
 
 PORT = int(os.environ.get('PORT', 5000))
-TOKEN= os.environ["TOKEN"]
-
+TOKEN = os.environ["TOKEN"]
+DUSERNAME = os.environ["DUSERNAME"]
+DAPIKEY = os.environ["DAPIKEY"]
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -33,7 +34,7 @@ def help_command(update, context):
 
 def echo(update, context):
     """Echo the user message."""
-    client = Danbooru('danbooru',username='sadkurt', api_key='aWnhkLm7TBFrivvAp6n39Paq')
+    client = Danbooru('danbooru',username=DUSERNAME, api_key=DAPIKEY)
     posts = client.post_list(tags=update.message.text, limit=5)
     if not posts:
         update.message.reply_text("Пустой запрос")
