@@ -35,7 +35,10 @@ def echo(update, context):
     """Echo the user message."""
     client = Danbooru('danbooru')
     posts = client.post_list(tags=update.message.text, limit=5)
-    update.message.reply_text(str(posts))
+    if not posts:
+        update.message.reply_text("Пустой запрос")
+    else:
+        update.message.reply_text("Запрос не пустой")
 
 def main():
     """Start the bot."""
