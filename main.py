@@ -31,7 +31,7 @@ def help_command(update, context):
     update.message.reply_text('Help!')
 
 
-async def echo(update, context):
+def echo(update, context):
     """Echo the user message."""
     client = Danbooru('danbooru')
     posts = client.post_list(tags=update.message.text, limit=5)
