@@ -23,16 +23,14 @@ logger = logging.getLogger(__name__)
 # Define a few command handlers. These usually take the two arguments update and
 # context. Error handlers also receive the raised TelegramError object in error.
 def start(update, context):
-    """Send a message when the command /start is issued."""
     update.message.reply_text('Hi!')
 
 
 def help_command(update, context):
-    """Send a message when the command /help is issued."""
     update.message.reply_text('Help!')
 
-def danb(update, context):
 
+def danb(update, context):
     client = Danbooru('danbooru', username=DUSERNAME, api_key=DAPIKEY)
     posts = client.post_list(tags=str(context[0]), limit=1)
     if not posts:
@@ -44,18 +42,6 @@ def danb(update, context):
             else:
                 update.message.reply_text("Нету ссылки или забанен")
 
-def echo(update, context):
-    """Echo the user message."""
-    client = Danbooru('danbooru',username=DUSERNAME, api_key=DAPIKEY)
-    posts = client.post_list(tags=update.message.text, limit=1)
-    if not posts:
-        update.message.reply_text("Пустой запрос")
-    else:
-        for post in posts:
-            if "file_url" in post:
-                update.message.reply_text(str(post["file_url"]))
-            else:
-                update.message.reply_text("Нету ссылки или забанен")
 
 def main():
     """Start the bot."""
@@ -73,7 +59,6 @@ def main():
     dp.add_handler(CommandHandler("danb", danb, pass_args=True))
 
     # on noncommand i.e message - echo the message on Telegram
-    dp.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
 
     # Start the Bot
     updater.start_webhook(listen="0.0.0.0",
