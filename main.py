@@ -8,9 +8,6 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from pybooru import Danbooru
 
 
-for post in posts:
-    print("Image path: {0}".format(post['file_url']))
-
 PORT = int(os.environ.get('PORT', 5000))
 TOKEN= os.environ["TOKEN"]
 
