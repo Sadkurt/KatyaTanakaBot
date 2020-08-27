@@ -33,7 +33,8 @@ def help_command(update, context):
 
 def echo(update, context):
     """Echo the user message."""
-    client = Danbooru('danbooru')
+    if update.message.text:
+    client = Danbooru('danbooru',username='sadkurt', api_key='aWnhkLm7TBFrivvAp6n39Paq')
     posts = client.post_list(tags=update.message.text, limit=5)
     if not posts:
         update.message.reply_text("Пустой запрос")
