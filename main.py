@@ -1,14 +1,19 @@
+from __future__ import unicode_literals
+
 import logging
 import os
-from pygelbooru import Gelbooru
-
 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+
+from pybooru import Danbooru
+
+
+for post in posts:
+    print("Image path: {0}".format(post['file_url']))
 
 PORT = int(os.environ.get('PORT', 5000))
 TOKEN= os.environ["TOKEN"]
 
-gelbooru = Gelbooru()
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -31,8 +36,9 @@ def help_command(update, context):
 
 async def echo(update, context):
     """Echo the user message."""
-    results = await gelbooru.search_posts(tags=[update.message.text])
-    update.message.reply_text(str(results[0]))
+    client = Danbooru('danbooru')
+    posts = client.post_list(tags=update.message.text, limit=5)
+    update.message.reply_text(str(posts[0]))
 
 def main():
     """Start the bot."""

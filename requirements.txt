@@ -1,2 +1,2 @@
 python-telegram-bot==12.8
-pygelbooru==0.3.0
+pybooru==4.2.0
