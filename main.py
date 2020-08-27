@@ -31,6 +31,18 @@ def help_command(update, context):
     """Send a message when the command /help is issued."""
     update.message.reply_text('Help!')
 
+def danb(update, context):
+
+    client = Danbooru('danbooru', username=DUSERNAME, api_key=DAPIKEY)
+    posts = client.post_list(tags=str(context[0]), limit=1)
+    if not posts:
+        update.message.reply_text("Пустой запрос")
+    else:
+        for post in posts:
+            if "file_url" in post:
+                update.message.reply_text(str(post["file_url"]))
+            else:
+                update.message.reply_text("Нету ссылки или забанен")
 
 def echo(update, context):
     """Echo the user message."""
@@ -58,6 +70,7 @@ def main():
     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", help_command))
+    dp.add_handler(CommandHandler("danb", danb, pass_args=True))
 
     # on noncommand i.e message - echo the message on Telegram
     dp.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
