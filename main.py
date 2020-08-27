@@ -38,7 +38,7 @@ def echo(update, context):
     if not posts:
         update.message.reply_text("Пустой запрос")
     else:
-        update.message.reply_text("Запрос не пустой")
+        update.message.reply_text(str(posts[0]["file_url"]))
 
 def main():
     """Start the bot."""
