@@ -38,7 +38,7 @@ def danb(update, context):
     else:
         for post in posts:
             if "file_url" in post:
-                update.message.reply_text(str(post["file_url"]))
+                update.message.reply_text(str(post["large_file_url"]))
             else:
                 update.message.reply_text("Нету ссылки или забанен")
 
