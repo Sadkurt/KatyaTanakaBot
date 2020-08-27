@@ -32,7 +32,7 @@ def help_command(update, context):
 
 def danb(update, context):
     client = Danbooru('danbooru', username=DUSERNAME, api_key=DAPIKEY)
-    posts = client.post_list(tags=str(context[0]), limit=1)
+    posts = client.post_list(tags=str(context.args[0]), limit=1)
     if not posts:
         update.message.reply_text("Пустой запрос")
     else:
