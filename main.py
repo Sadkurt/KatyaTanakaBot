@@ -35,7 +35,7 @@ def help_command(update, context):
 def echo(update, context):
     """Echo the user message."""
     client = Danbooru('danbooru',username=DUSERNAME, api_key=DAPIKEY)
-    posts = client.post_list(tags=update.message.text, limit=5)
+    posts = client.post_list(tags=update.message.text, limit=1)
     if not posts:
         update.message.reply_text("Пустой запрос")
     else:
@@ -43,7 +43,7 @@ def echo(update, context):
             if "file_url" in post:
                 update.message.reply_text(str(post["file_url"]))
             else:
-                update.message.reply_text("Нету ссылки")
+                update.message.reply_text("Нету ссылки или забанен")
 
 def main():
     """Start the bot."""
