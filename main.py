@@ -36,7 +36,6 @@ def echo(update, context):
     """Echo the user message."""
     client = Danbooru('danbooru',username=DUSERNAME, api_key=DAPIKEY)
     posts = client.post_list(tags=update.message.text, limit=10)
-    post = posts.get()
     if not posts:
         update.message.reply_text("Пустой запрос")
     else:
