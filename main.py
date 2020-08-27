@@ -35,7 +35,7 @@ def echo(update, context):
     """Echo the user message."""
     client = Danbooru('danbooru')
     posts = client.post_list(tags=update.message.text, limit=5)
-    update.message.reply_text(str(posts[0]))
+    update.message.reply_text(str(posts))
 
 def main():
     """Start the bot."""
