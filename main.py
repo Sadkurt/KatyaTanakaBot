@@ -4,7 +4,7 @@ import logging
 import os
 from uuid import uuid4
 
-from telegram import InlineQueryResultArticle
+from telegram import InlineQueryResultArticle, InputTextMessageContent
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, InlineQueryHandler
 from pybooru import Danbooru
 
@@ -34,7 +34,7 @@ def choose(update, context):
         results.append(InlineQueryResultArticle(
                         id=uuid4(),
                         title=tag['name'],
-                        input_message_content=tag['name']))
+                        input_message_content=InputTextMessageContent(tag['name'])))
 
     update.inline_query.answer(results)
 
