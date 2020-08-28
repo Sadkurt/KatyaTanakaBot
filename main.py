@@ -36,8 +36,8 @@ def choose(update, context):
 
         post = client.post_list(tags=tag['name'], limit=1)
 
-        if post:
-            if "file_url" in post:
+        if post[0]:
+            if "file_url" in post[0]:
                 message = str(post["large_file_url"])
                 print(message)
             else:
