@@ -40,6 +40,7 @@ def choose(update, context):
         else:
             for post in posts:
                 if "file_url" in post:
+                    print(post["id"])
                     message = str(post["large_file_url"])
                 else:
                     message = "Нету ссылки или забанен"
