@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 import logging
 import os
+import random
 from uuid import uuid4
 
 from telegram import InlineQueryResultArticle, InputTextMessageContent
@@ -35,18 +36,18 @@ def choose(update, context):
     for tag in tags:
 
         thumbimg = ''
-        posts = client.post_list(tags=tag['name'], limit=1)
+        posts = client.post_list(tags=tag['name'], limit=10)
         if not posts:
             print("Пустой запрос")
             message = "Пустой запрос"
         else:
-            for post in posts:
-                if "file_url" in post:
-                    print(post["id"])
-                    thumbimg = str(post["preview_file_url"])
-                    message = str(post["large_file_url"])
-                else:
-                    message = "Нету ссылки или забанен"
+            post = random.choice(posts)
+            if "file_url" in post:
+                print(post["id"])
+                thumbimg = str(post["preview_file_url"])
+                message = str(post["large_file_url"])
+            else:
+                message = "Нету ссылки или забанен"
 
 
         results.append(InlineQueryResultArticle(
