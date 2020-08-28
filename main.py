@@ -34,7 +34,7 @@ def choose(update, context):
 
     for tag in tags:
 
-        message = ''
+        thumbimg = ''
         posts = client.post_list(tags=tag['name'], limit=1)
         if not posts:
             print("Пустой запрос")
@@ -43,6 +43,7 @@ def choose(update, context):
             for post in posts:
                 if "file_url" in post:
                     print(post["id"])
+                    thumbimg = str(post["preview_file_url"])
                     message = str(post["large_file_url"])
                 else:
                     message = "Нету ссылки или забанен"
@@ -51,7 +52,7 @@ def choose(update, context):
         results.append(InlineQueryResultArticle(
                         id=uuid4(),
                         title=tag['name'],
-                        thumb_url=message,
+                        thumb_url=thumbimg,
                         input_message_content=InputTextMessageContent(message)))
 
     update.inline_query.answer(results)
