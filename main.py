@@ -34,6 +34,7 @@ def choose(update, context):
 
     for tag in tags:
 
+        message = ''
         posts = client.post_list(tags=tag['name'], limit=1)
         if not posts:
             print("Пустой запрос")
