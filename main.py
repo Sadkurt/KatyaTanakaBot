@@ -27,7 +27,7 @@ def help_command(update, context):
 
 def choose(update, context):
     query = update.inline_query.query
-    tags = client.tag_list(name_matches=query)
+    tags = client.tag_list(name_matches=query+'*')
     results = []
 
     for tag in tags:
