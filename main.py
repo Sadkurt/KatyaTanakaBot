@@ -27,7 +27,7 @@ def help_command(update, context):
 
 def choose(update, context):
     query = update.inline_query.query
-    tags  = client.tag_list(name_matches=query)
+    tags = client.tag_list(name_matches=query)
     results = []
 
     for tag in tags:
@@ -35,6 +35,7 @@ def choose(update, context):
                         id=uuid4(),
                         title=tag['name'],
                         input_message_content=InputTextMessageContent(tag['name'])))
+        print(tags)
 
     update.inline_query.answer(results)
 
