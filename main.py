@@ -30,12 +30,24 @@ def choose(update, context):
     tags = client.tag_list(name_matches=query+'*')
     results = []
 
+
+
     for tag in tags:
+
+        post = client.post_list(tags=tag['name'], limit=1)
+
+        if post:
+            if "file_url" in post:
+                message = str(post["large_file_url"])
+            else:
+                message = "Нету ссылки или забанен"
+        else:
+            message = "Пустой запрос"
+
         results.append(InlineQueryResultArticle(
                         id=uuid4(),
                         title=tag['name'],
-                        input_message_content=InputTextMessageContent(tag['name'])))
-        print(tags)
+                        input_message_content=InputTextMessageContent(message)))
 
     update.inline_query.answer(results)
 
