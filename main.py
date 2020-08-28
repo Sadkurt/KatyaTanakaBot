@@ -56,7 +56,7 @@ def choose(update, context):
                         thumb_url=thumbimg,
                         input_message_content=InputTextMessageContent(message)))
 
-    update.inline_query.answer(results)
+    update.inline_query.answer(results,cache_time=10)
 
 def danb(update, context):
     posts = client.post_list(tags=str(context.args[0]), limit=1)
