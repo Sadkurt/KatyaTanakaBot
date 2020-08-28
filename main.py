@@ -26,7 +26,7 @@ def help_command(update, context):
     update.message.reply_text('Я вхожу в данбору без стука! \danb моя команда - шнырь!')
 
 def choose(update, context):
-    query = str(update.inline_query.query)
+    query = update.inline_query.query
     tags  = client.tag_list(name_matches=query)
     results = []
 
