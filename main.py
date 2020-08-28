@@ -35,11 +35,11 @@ def choose(update, context):
     for tag in tags:
 
         post = client.post_list(tags=tag['name'], limit=1)
-
+        print(post)
+        print(post[0])
         if post[0]:
             if "file_url" in post[0]:
                 message = str(post["large_file_url"])
-                print(message)
             else:
                 message = "Нету ссылки или забанен"
         else:
