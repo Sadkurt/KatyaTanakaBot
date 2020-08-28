@@ -35,14 +35,15 @@ def choose(update, context):
     for tag in tags:
 
         posts = client.post_list(tags=tag['name'], limit=1)
-        if posts:
+        if not posts:
+            message = "Пустой запрос"
+        else:
             for post in posts:
                 if "file_url" in post:
                     message = str(post["large_file_url"])
                 else:
                     message = "Нету ссылки или забанен"
-            else:
-                message = "Пустой запрос"
+
 
         results.append(InlineQueryResultArticle(
                         id=uuid4(),
