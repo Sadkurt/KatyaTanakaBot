@@ -50,6 +50,7 @@ def choose(update, context):
         results.append(InlineQueryResultArticle(
                         id=uuid4(),
                         title=tag['name'],
+                        thumb_url=message,
                         input_message_content=InputTextMessageContent(message)))
 
     update.inline_query.answer(results)
