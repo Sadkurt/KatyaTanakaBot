@@ -2,9 +2,10 @@ from __future__ import unicode_literals
 
 import logging
 import os
+from uuid import uuid4
 
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-
+from telegram import InlineQueryResultArticle
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, InlineQueryHandler
 from pybooru import Danbooru
 
 
@@ -12,6 +13,8 @@ PORT = int(os.environ.get('PORT', 5000))
 TOKEN = os.environ["TOKEN"]
 DUSERNAME = os.environ["DUSERNAME"]
 DAPIKEY = os.environ["DAPIKEY"]
+client = Danbooru('danbooru', username=DUSERNAME, api_key=DAPIKEY)
+
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -19,19 +22,23 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 logger = logging.getLogger(__name__)
 
-
-# Define a few command handlers. These usually take the two arguments update and
-# context. Error handlers also receive the raised TelegramError object in error.
-def start(update, context):
-    update.message.reply_text('Hi!')
-
-
 def help_command(update, context):
-    update.message.reply_text('Help!')
+    update.message.reply_text('Я вхожу в данбору без стука! \danb моя команда - шнырь!')
 
+def choose(update, context):
+    query = str(update.inline_query.query)
+    tags  = client.tag_list(name_matches=query)
+    results = []
+
+    for tag in tags:
+        results.append(InlineQueryResultArticle(
+                        id=uuid4(),
+                        title=tag['name'],
+                        input_message_content=tag['name']))
+
+    update.inline_query.answer(results)
 
 def danb(update, context):
-    client = Danbooru('danbooru', username=DUSERNAME, api_key=DAPIKEY)
     posts = client.post_list(tags=str(context.args[0]), limit=1)
     if not posts:
         update.message.reply_text("Пустой запрос")
@@ -44,31 +51,20 @@ def danb(update, context):
 
 
 def main():
-    """Start the bot."""
-    # Create the Updater and pass it your bot's token.
-    # Make sure to set use_context=True to use the new context based callbacks
-    # Post version 12 this will no longer be necessary
+
     updater = Updater(TOKEN, use_context=True)
 
-    # Get the dispatcher to register handlers
     dp = updater.dispatcher
 
-    # on different commands - answer in Telegram
-    dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", help_command))
-    dp.add_handler(CommandHandler("danb", danb, pass_args=True))
+    # dp.add_handler(CommandHandler("danb", danb, pass_args=True))
+    dp.add_handler(InlineQueryHandler(choose))
 
-    # on noncommand i.e message - echo the message on Telegram
-
-    # Start the Bot
     updater.start_webhook(listen="0.0.0.0",
                           port=int(PORT),
                           url_path=TOKEN)
     updater.bot.setWebhook('https://tgbotkatya.herokuapp.com/' + TOKEN)
 
-    # Run the bot until you press Ctrl-C or the process receives SIGINT,
-    # SIGTERM or SIGABRT. This should be used most of the time, since
-    # start_polling() is non-blocking and will stop the bot gracefully.
     updater.idle()
 
 
