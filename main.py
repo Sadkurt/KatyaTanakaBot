@@ -26,32 +26,51 @@ logger = logging.getLogger(__name__)
 def help_command(update, context):
     update.message.reply_text('Я вхожу в данбору без стука! \danb моя команда - шнырь!')
 
-def choose(update, context):
-    query = update.inline_query.query
-    tags = client.tag_list(name_matches=query+'*')
+
+def fetch_posts_by_tags(tags):
     results = []
-
-
-
     for tag in tags:
-
         posts = client.post_list(tags=tag['name'], limit=10)
         if not posts:
             print("Пустой запрос")
-            message = "Пустой запрос"
         else:
             post = random.choice(posts)
             if "file_url" in post:
                 print(post["id"])
                 thumbimg = str(post["preview_file_url"])
                 message = str(post["large_file_url"])
-
                 results.append(InlineQueryResultArticle(
                     id=uuid4(),
                     title=tag['name'],
                     thumb_url=thumbimg,
                     input_message_content=InputTextMessageContent(message)))
+    return results
 
+
+def fetch_random_post():
+    results = []
+    posts = client.post_list(random=True, limit=10)
+    if not posts:
+        print("Пустой запрос")
+    else:
+        for post in posts:
+            if "file_url" in post:
+                print(post["id"])
+                thumbimg = str(post["preview_file_url"])
+                message = str(post["large_file_url"])
+                results.append(InlineQueryResultArticle(
+                    id=uuid4(),
+                    title='RANDOM',
+                    thumb_url=thumbimg,
+                    input_message_content=InputTextMessageContent(message)))
+
+def choose(update, context):
+    query = update.inline_query.query
+    if query == "random":
+        return 0
+    else:
+        tags = client.tag_list(name_matches=query.join('*'))
+        results = fetch_posts_by_tags(tags)
     update.inline_query.answer(results,cache_time=10)
 
 def danb(update, context):
