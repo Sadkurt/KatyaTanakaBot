@@ -63,11 +63,13 @@ def fetch_random_post():
                     title='RANDOM',
                     thumb_url=thumbimg,
                     input_message_content=InputTextMessageContent(message)))
+    return results
 
 def choose(update, context):
     query = update.inline_query.query
+    results = []
     if query == "random":
-        return 0
+        results = fetch_random_post()
     else:
         tags = client.tag_list(name_matches=query.join('*'))
         results = fetch_posts_by_tags(tags)
