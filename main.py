@@ -70,7 +70,7 @@ def choose(update, context):
     if query == "random":
         results = fetch_random_post()
     else:
-        tags = client.tag_list(name_matches=query.join('*'))
+        tags = client.tag_list(name_matches=query + '*')
         results = fetch_posts_by_tags(tags)
     update.inline_query.answer(results,cache_time=10)
 
