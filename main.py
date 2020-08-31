@@ -27,6 +27,12 @@ def help_command(update, context):
     update.message.reply_text('Я вхожу в данбору без стука! \danb моя команда - шнырь!')
 
 
+def random_command(update, context):
+    results = fetch_random_post()
+    result = random.choice(results)
+    message = result.input_message_content
+    update.message.reply_text(message)
+
 def fetch_posts_by_tags(tags):
     results = []
     for tag in tags:
@@ -93,6 +99,7 @@ def main():
     dp = updater.dispatcher
 
     dp.add_handler(CommandHandler("help", help_command))
+    dp.add_handler(CommandHandler("random", random_command))
     # dp.add_handler(CommandHandler("danb", danb, pass_args=True))
     dp.add_handler(InlineQueryHandler(choose))
 
