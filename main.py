@@ -67,7 +67,6 @@ def fetch_random_post():
 
 def choose(update, context):
     query = update.inline_query.query
-    results = []
     if query == "random":
         results = fetch_random_post()
     else:
