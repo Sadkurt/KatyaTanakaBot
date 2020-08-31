@@ -5,7 +5,7 @@ import os
 import random
 from uuid import uuid4
 
-from telegram import InlineQueryResultArticle, InputTextMessageContent
+from telegram import InlineQueryResultArticle, InputTextMessageContent, InlineQueryResultPhoto
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, InlineQueryHandler
 from pybooru import Danbooru
 
@@ -35,8 +35,9 @@ def random_command(update, context):
     else:
         for post in posts:
             if "file_url" in post:
-                message = "[Линк](" + str(post['large_file_url']) + ")"
+                message = f"[Линк]({str(post['large_file_url'])})"
     update.message.reply_markdown(message)
+
 
 def fetch_posts_by_tags(tags):
     results = []
@@ -69,11 +70,11 @@ def fetch_random_post():
                 print(post["id"])
                 thumbimg = str(post["preview_file_url"])
                 message = str(post["large_file_url"])
-                results.append(InlineQueryResultArticle(
+                results.append(InlineQueryResultPhoto(
                     id=uuid4(),
                     title='RANDOM',
                     thumb_url=thumbimg,
-                    input_message_content=InputTextMessageContent(message)))
+                    photo_url=InputTextMessageContent(message)))
     return results
 
 def choose(update, context):
