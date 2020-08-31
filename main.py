@@ -5,7 +5,7 @@ import os
 import random
 from uuid import uuid4
 
-from telegram import InlineQueryResultArticle, InputTextMessageContent, InlineQueryResultPhoto
+from telegram import InlineQueryResultArticle, InputTextMessageContent, InlineQueryResultPhoto, InlineQueryResultGif
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, InlineQueryHandler
 from pybooru import Danbooru
 
@@ -61,6 +61,26 @@ def fetch_posts_by_tags(tags):
     return results
 
 
+def fetch_animated_post():
+    results = []
+    posts = client.post_list(tags="animated_gif",limit=10,random=True)
+    if not posts:
+        print("Пустой запрос")
+    else:
+        for post in posts:
+            if "file_url" in post:
+                print(post["id"])
+                thumbimg = str(post["preview_file_url"])
+                message = str(post["large_file_url"])
+                results.append(InlineQueryResultGif(
+                    id=uuid4(),
+                    gif_width=100,
+                    gif_height=100,
+                    thumb_url=thumbimg,
+                    gif_url=message))
+    return results
+
+
 def fetch_random_post():
     results = []
     posts = client.post_list(random=True, limit=10)
@@ -85,6 +105,8 @@ def choose(update, context):
     query = update.inline_query.query
     if query == "random":
         results = fetch_random_post()
+    elif query == "gif":
+        results = fetch_animated_post()
     else:
         tags = client.tag_list(name_matches=query + '*')
         results = fetch_posts_by_tags(tags)
