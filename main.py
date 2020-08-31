@@ -47,6 +47,7 @@ def gif_command(update, context):
     else:
         for post in posts:
             if "file_url" in post:
+
                 message = str(post['large_file_url'])
     bot.send_animation(chat_id=update.message.chat_id, animation=message)
 
@@ -66,8 +67,8 @@ def fetch_posts_by_tags(tags):
                 results.append(InlineQueryResultPhoto(
                     id=uuid4(),
                     title='RANDOM',
-                    photo_width=100,
-                    photo_height=100,
+                    photo_width=150,
+                    photo_height=150,
                     thumb_url=thumbimg,
                     photo_url=message))
     return results
@@ -86,8 +87,8 @@ def fetch_animated_post():
                 message = str(post["large_file_url"])
                 results.append(InlineQueryResultGif(
                     id=uuid4(),
-                    gif_width=100,
-                    gif_height=100,
+                    gif_width=150,
+                    gif_height=150,
                     thumb_url=thumbimg,
                     gif_url=message))
     return results
@@ -107,8 +108,8 @@ def fetch_random_post():
                 results.append(InlineQueryResultPhoto(
                     id=uuid4(),
                     title='RANDOM',
-                    photo_width=100,
-                    photo_height=100,
+                    photo_width=150,
+                    photo_height=150,
                     thumb_url=thumbimg,
                     photo_url=message))
     return results
