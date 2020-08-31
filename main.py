@@ -30,8 +30,8 @@ def help_command(update, context):
 def random_command(update, context):
     results = fetch_random_post()
     result = random.choice(results)
-    message = str(result.input_message_content)
-    update.message.reply_text(message)
+    message = result.input_message_content.to_dict()
+    update.message.reply_text(message[0])
 
 def fetch_posts_by_tags(tags):
     results = []
