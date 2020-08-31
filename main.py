@@ -54,7 +54,6 @@ def fetch_posts_by_tags(tags):
                 results.append(InlineQueryResultPhoto(
                     id=uuid4(),
                     title='RANDOM',
-                    photo_width=100,
                     photo_height=100,
                     thumb_url=thumbimg,
                     photo_url=message))
@@ -75,7 +74,6 @@ def fetch_random_post():
                 results.append(InlineQueryResultPhoto(
                     id=uuid4(),
                     title='RANDOM',
-                    photo_width=100,
                     photo_height=100,
                     thumb_url=thumbimg,
                     photo_url=message))
