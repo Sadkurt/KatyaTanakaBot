@@ -35,7 +35,7 @@ def random_command(update, context):
     else:
         for post in posts:
             if "file_url" in post:
-                message = str(post["large_file_url"])
+                message = "[Линк](" + str(post['large_file_url']) + ")"
     update.message.reply_text(message)
 
 def fetch_posts_by_tags(tags):
