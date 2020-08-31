@@ -47,7 +47,7 @@ def gif_command(update, context):
     else:
         for post in posts:
             if "file_url" in post:
-                message = f"[Линк]({str(post['large_file_url'])})"
+                message = str(post['large_file_url'])
     bot.send_animation(chat_id=update.message.chat_id, animation=message)
 
 
