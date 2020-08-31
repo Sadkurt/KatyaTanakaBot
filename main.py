@@ -5,7 +5,7 @@ import os
 import random
 from uuid import uuid4
 
-from telegram import InlineQueryResultArticle, InputTextMessageContent, InlineQueryResultPhoto, InlineQueryResultGif
+from telegram import InlineQueryResultArticle, InputTextMessageContent, InlineQueryResultPhoto, InlineQueryResultGif, Bot
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, InlineQueryHandler
 from pybooru import Danbooru
 
@@ -15,6 +15,7 @@ TOKEN = os.environ["TOKEN"]
 DUSERNAME = os.environ["DUSERNAME"]
 DAPIKEY = os.environ["DAPIKEY"]
 client = Danbooru('danbooru', username=DUSERNAME, api_key=DAPIKEY)
+bot = Bot(TOKEN)
 
 
 # Enable logging
@@ -37,6 +38,17 @@ def random_command(update, context):
             if "file_url" in post:
                 message = f"[Линк]({str(post['large_file_url'])})"
     update.message.reply_markdown(message)
+
+
+def gif_command(update, context):
+    posts = client.post_list(tags="animated_gif", limit=3, random=True)
+    if not posts:
+        message = "Не получилось, попробуй еще разок ^_^"
+    else:
+        for post in posts:
+            if "file_url" in post:
+                message = f"[Линк]({str(post['large_file_url'])})"
+    bot.send_animation(chat_id=update.message.chat_id, animation=message)
 
 
 def fetch_posts_by_tags(tags):
@@ -63,7 +75,7 @@ def fetch_posts_by_tags(tags):
 
 def fetch_animated_post():
     results = []
-    posts = client.post_list(tags="animated_gif",limit=10,random=True)
+    posts = client.post_list(tags="animated_gif", limit=10, random=True)
     if not posts:
         print("Пустой запрос")
     else:
@@ -127,11 +139,11 @@ def danb(update, context):
 def main():
 
     updater = Updater(TOKEN, use_context=True)
-
     dp = updater.dispatcher
 
     dp.add_handler(CommandHandler("help", help_command))
     dp.add_handler(CommandHandler("random", random_command))
+    dp.add_handler(CommandHandler("gif", gif_command))
     # dp.add_handler(CommandHandler("danb", danb, pass_args=True))
     dp.add_handler(InlineQueryHandler(choose))
 
