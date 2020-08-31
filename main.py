@@ -61,7 +61,7 @@ def fetch_posts_by_tags(tags):
 
 def fetch_random_post():
     results = []
-    posts = client.post_list(random=True, limit=10)
+    posts = client.post_list(random=True, limit=5)
     if not posts:
         print("Пустой запрос")
     else:
