@@ -51,17 +51,19 @@ def fetch_posts_by_tags(tags):
                 print(post["id"])
                 thumbimg = str(post["preview_file_url"])
                 message = str(post["large_file_url"])
-                results.append(InlineQueryResultArticle(
+                results.append(InlineQueryResultPhoto(
                     id=uuid4(),
-                    title=tag['name'],
+                    title='RANDOM',
+                    photo_width=100,
+                    photo_height=100,
                     thumb_url=thumbimg,
-                    input_message_content=InputTextMessageContent(message)))
+                    photo_url=message))
     return results
 
 
 def fetch_random_post():
     results = []
-    posts = client.post_list(random=True, limit=5)
+    posts = client.post_list(random=True, limit=10)
     if not posts:
         print("Пустой запрос")
     else:
