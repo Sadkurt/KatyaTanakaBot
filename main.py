@@ -74,7 +74,7 @@ def fetch_random_post():
                     id=uuid4(),
                     title='RANDOM',
                     thumb_url=thumbimg,
-                    photo_url=InputTextMessageContent(message)))
+                    photo_url=message
     return results
 
 def choose(update, context):
