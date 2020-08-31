@@ -28,10 +28,15 @@ def help_command(update, context):
 
 
 def random_command(update, context):
-    results = fetch_random_post()
-    result = random.choice(results)
-    message = result.input_message_content.to_dict()
-    update.message.reply_text(message[0])
+    posts = client.post_list(random=True, limit=3)
+    message = "Не получилось, попробуй еще разок ^_^"
+    if not posts:
+        print("Пустой запрос")
+    else:
+        for post in posts:
+            if "file_url" in post:
+                message = str(post["large_file_url"])
+    update.message.reply_text(message)
 
 def fetch_posts_by_tags(tags):
     results = []
